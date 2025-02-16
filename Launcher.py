@@ -13,13 +13,13 @@ from email.utils import parsedate_to_datetime
 MODS_URL = "https://nexon-project.ru/mods/"
 MODS_DIR = os.path.join(os.getenv('APPDATA'), ".minecraft", "mods")
 CONFIG_PATH = "config.json"
-WINDOW_WIDTH = 730
+WINDOW_WIDTH = 750
 WINDOW_HEIGHT = 550
 
 # Локализация интерфейса
 LANGUAGES = {
     "ru": {
-        "title": "🔧 Обновление модов Minecraft",
+        "title": "🔧 Обновление модов Minecraft Nexon Project",
         "choose_theme": "Тема:",
         "apply_theme": "Применить",
         "choose_lang": "Язык:",
@@ -34,7 +34,7 @@ LANGUAGES = {
         "checking": "🔍 Проверка обновлений..."
     },
     "en": {
-        "title": "🔧 Minecraft Mod Updater",
+        "title": "🔧 Minecraft Nexon Project Mod Updater",
         "choose_theme": "Theme:",
         "apply_theme": "Apply",
         "choose_lang": "Language:",
