@@ -169,20 +169,33 @@ def download_mod(mod_name):
         messagebox.showerror("Ошибка", f"Ошибка загрузки: {e}")
 
 def update_mods():
-    mod_list.delete(*mod_list.get_children())
+    mod_list.delete(*mod_list.get_children())  # Очистка списка перед обновлением
     mods = fetch_mod_list()
     to_update = []
+
     for mod_name in mods:
         server_date = get_server_file_date(mod_name)
         local_date = get_local_file_date(mod_name)
-        if server_date and local_date and server_date > local_date:
+
+        if local_date is None:
+            # Если файла нет локально – мод нужно скачать
+            status = lang["update_available"]
+            to_update.append(mod_name)
+        elif server_date and local_date and server_date > local_date:
+            # Если версия сервера новее – обновляем
             status = lang["update_available"]
             to_update.append(mod_name)
         else:
+            # Если мод уже актуален
             status = lang["up_to_date"]
+
+        # Добавляем в список GUI
         mod_list.insert("", "end", values=(mod_name, status))
-    for mod_name in to_update:
-        download_mod(mod_name)
+
+    if to_update:
+        for mod_name in to_update:
+            download_mod(mod_name)
+
     messagebox.showinfo(lang["done"], lang["update_completed"])
 
 if auto_update:
