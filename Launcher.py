@@ -170,10 +170,22 @@ def download_mod(mod_name):
 
 def update_mods():
     mod_list.delete(*mod_list.get_children())  # Очистка списка перед обновлением
-    mods = fetch_mod_list()
-    to_update = []
+    mods_on_server = set(fetch_mod_list())  # Получаем список файлов на сервере
+    mods_local = {mod for mod in os.listdir(MODS_DIR) if mod.endswith(".jar")}  # Получаем список локальных модов
 
-    for mod_name in mods:
+    to_update = []
+    to_delete = mods_local - mods_on_server  # Оставляем только те моды, которых нет на сервере
+
+    # Удаляем только отсутствующие на сервере моды
+    for mod_name in to_delete:
+        local_path = os.path.join(MODS_DIR, mod_name)
+        try:
+            os.remove(local_path)  # Удаляем файл
+            print(f"🗑 Удален устаревший мод: {mod_name}")
+        except Exception as e:
+            print(f"❌ Ошибка при удалении {mod_name}: {e}")
+
+    for mod_name in mods_on_server:
         server_date = get_server_file_date(mod_name)
         local_date = get_local_file_date(mod_name)
 
